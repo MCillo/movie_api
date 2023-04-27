@@ -53,13 +53,13 @@ let topTenMovies = [
 app.use(morgan('common'));
 
 // Get requests
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { // http GET request that returns message
     res.send('Welcome to Movie Tracker!');
 });
 
 app.use(express.static('public'));
 
-app.get('/movies', (req, res) => {
+app.get('/movies', (req, res) => { // http GET request that returns json object topTenMovies
     res.json(topTenMovies);
 });
 
@@ -68,8 +68,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(bodyParser.json());
-app.use(methodOverride());
+app.use(bodyParser.json()); // for handling errors
+app.use(methodOverride()); // for handling errors
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
