@@ -4,9 +4,85 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Documentation Page</title>
 </head>
 <body>
     <h1>Documentation Page of movie_api app. </h1>
+
+    <table>
+        <caption>Movie_API URL Endpoints</caption>
+        <tr>
+            <td>Request</td>
+            <td>URL</td>
+            <td>HTTP Method</td>
+            <td>Request body data format</td>
+            <td>Response body data format</td>
+        </tr>
+        <tr>
+            <td>Return a list of ALL movies to the user</td>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about all the movies</td>
+        </tr>
+        <tr>
+            <td>Return Data(Description, genre, director, image URL, whether it's featured or not) about a single movie by title to the user</td>
+            <td>/movies/[Movie]</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about a single movie: containing movie ID, name, director, genre, description, image URL, featured(boolean) etc., </td>
+        </tr>
+        <tr>
+            <td>Return Data about a genre (description) by name/title e.g., "Thriller"</td>
+            <td>/movies/[Genre]</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about the genre selected</td>
+        </tr>
+        <tr>
+            <td>Return data about a director (bio, birth year, death year) by name</td>
+            <td>/movies/[Director]</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about the director selected</td>
+        </tr>
+        <tr>
+            <td>Allow new users to register</td>
+            <td>/users</td>
+            <td>POST</td>
+            <td>A JSON object holding data about the user to add: user name (email), user password, auto generated user id</td>
+            <td>A text informing the user of successful registration</td>
+        </tr>
+        <tr>
+            <td>Allow users to update their user info (username)</td>
+            <td>/users/[Username]</td>
+            <td>UPDATE</td>
+            <td>None</td>
+            <td>A text informing the user of succesful update</td>
+        </tr>
+        <tr>
+            <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added - more on this later)</td>
+            <td>/users/[Favorites]</td>
+            <td>UPDATE</td>
+            <td>None</td>
+            <td>A text informing the user of a succesful movie addition</td>
+        </tr>
+        <tr>
+            <td>Allow users to remove a movie from their list of favorites (showing on a text that a movie has been removed more on this later)</td>
+            <td>/users/[Favorites]</td>
+            <td>REMOVE</td>
+            <td>None</td>
+            <td>A text informing the user of a succesful movie removal</td>
+        </tr>
+        <tr>
+            <td>Allow existing users to deregister (showing only a text that a user email has been removed - more on this later)</td>
+            <td>/users/[Username]</td>
+            <td>REMOVE</td>
+            <td>None</td>
+            <td>A test informing the user of succesful account deactivation</td>
+        </tr>
+    </table>
+
 </body>
 </html>
