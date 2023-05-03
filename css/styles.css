@@ -2,9 +2,26 @@ table {
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
+    border: 2px solid black;
+}
+
+th {
+    font-size: larger;
+    padding-top: 10px;
+
+}
+
+
+thead {
+    text-align: center;
+}
+
+td {
     border: 1px solid black;
+    padding: 5px;
 }
 
 caption {
-    color: blue;
+    font-size: larger;
+    padding-bottom: 5px;
 }
