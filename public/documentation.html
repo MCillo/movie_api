@@ -40,30 +40,27 @@
                     <td>GET</td>
                     <td>None</td>
                     <td>A JSON object holding data about a single movie: containing movie ID, name, director, genre,
-                        description, image URL, featured(boolean) etc., </td>
+                        description, image URL, featured(boolean). Example: <br>{ <br>movieId: 1 <br>title: The Shawshank Redemption <br>director: { <br>directorName: Frank Darabont <br>directorBio: Frank Darabont's bio <br>directorBirth: January 01, 1950 <br>directorDeath: Null <br>} <br>genre: { <br> genreName: Drama <br>genreDescription: Description for Drama <br> } <br> movieImageURL: image for the movie <br>featured: false <br> } </td>
                 </tr>
                 <tr>
                     <td>Return Data about a genre (description) by name/title e.g., "Thriller"</td>
                     <td>/movies/[Genre]</td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>A JSON object holding data about the genre selected</td>
+                    <td>A JSON object holding data about the genre selected Example: <br> { <br> genreName: Drama <br>genreDescription: Description for Drama <br> } </td>
                 </tr>
                 <tr>
                     <td>Return data about a director (bio, birth year, death year) by name</td>
                     <td>/movies/[Director]</td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>A JSON object holding data about the director selected</td>
+                    <td>A JSON object holding data about the director selected. Example: <br> { <br>directorName: Frank Darabont <br>directorBio: Frank Darabont's bio <br>directorBirth: January 01, 1950 <br>directorDeath: Null <br>} </td>
                 </tr>
                 <tr>
                     <td>Allow new users to register</td>
                     <td>/users</td>
                     <td>POST</td>
-                    <td>A JSON object holding data about the user to add: user name (email), user password, auto
-                        generated
-                        user
-                        id</td>
+                    <td>A JSON object holding data about the user to add: Structured Like: <br>{ <br>name: Jane Doe <br>userName: JaneUserDoe <br> favorites: Pulp Fiction <br>} <br></td>
                     <td>A text informing the user of successful registration</td>
                 </tr>
                 <tr>
@@ -98,7 +95,7 @@
                     <td>/users/[Username]</td>
                     <td>DELETE</td>
                     <td>None</td>
-                    <td>A test informing the user of succesful account deactivation</td>
+                    <td>A text informing the user of succesful account deactivation</td>
                 </tr>
             </tbody>
         </table>
