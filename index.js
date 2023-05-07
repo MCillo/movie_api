@@ -13,120 +13,192 @@ app.use(bodyParser.json());
 // movies data objects 
 let movies = [
     {
-        movieId: 1,
-        title: 'The Shawshank Redemption',
-        director: 'Frank Darabont',
-        genre: 'Drama'
+        'movieId': 1,
+        'title': 'The Shawshank Redemption',
+        'movieDescription': 'The description for The Shawshank Redemptioin goes here.',
+        'director': {
+            'directorName': 'Frank Darabont',
+            'directorBio': 'Frank Darabont bio goes here',
+            'directorBirth': 'January 01, 1950',
+            'directorDeath': ''
+        },
+        'genre': {
+            'genreName': 'Drama',
+            'genreDescription': 'Description for drama goes here.'
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': false
     },
     {
-        movieId: 2,
-        title: 'The Godfather',
-        director: 'Francis Ford Coppola',
-        genre: 'Crime, Drama'
+        'movieId': 2,
+        'title': 'The Godfather',
+        'movieDescription': 'The description for The Godfather goes here.',
+        'director': {
+            directorName: 'Francis Ford Coppola',
+            directorBio: 'Francis Ford Coppola bio goes here',
+            directorBirth: 'February 05, 1960',
+            directorDeath: ''
+        },
+        'genre': {
+            'genreName': 'Crime',
+            'genreDescription': 'Description for Crime goes here.'
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': false
     },
     {
-        movieId: 3,
-        title: 'The Dark Night',
-        director: 'Christopher Nolan',
-        genre: 'Action, Crime, Drama, Thriller'
+        'movieId': 3,
+        'title': 'The Dark Night',
+        'movieDescription': 'The description for The Dark Night goes here.',
+        'director': {
+            'directorName': 'Christopher Nolan',
+            'directorBio': 'Christopher Nolan bio goes here',
+            'directorBirth': 'March 10, 1970',
+            'directorDeath': ''
+        },
+        'genre': {
+            'genreName': 'Action',
+            'genreDescription': 'Description for Action goes here.'
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': true
     },
     {
-        movieId: 4,
-        title: 'The Godfather Part II',
-        director: 'Francis Ford Coppola',
-        genre: 'Crime, Drama'
+        'movieId': 4,
+        'title': 'The Godfather Part II',
+        'movieDescription': 'The description for The Godfather Part II goes here.',
+        'director': {
+            'directorName': 'Francis Ford Coppola',
+            'directorBio': 'Francis Ford Coppola bio goes here',
+            'directorBirth': 'February 05, 1960',
+            'directorDeath': ''
+        },
+        'genre': {
+            'genreName': 'Crime',
+            'genreDescription': 'Description for Crime goes here.'
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': false
     },
     {
-        movieId: 5,
-        title: '12 Angry Men',
-        director: 'Sidney Lumet',
-        genre: 'Crime, Drama'
+        'movieId': 5,
+        'title': '12 Angry Men',
+        'movieDescription': 'The description for 12 Angry Men goes here.',
+        'director': {
+            'directorName': 'Sidney Lumet',
+            'directorBio': 'Sidney Lumet bio goes here',
+            'directorBirth': 'April 15, 1930',
+            'directorDeath': 'January 31, 2010'
+        },
+        'genre': {
+            'genreName': 'Drama',
+            'genreDescription': 'Description for drama goes here'
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': false
     },
     {
-        movieId: 6,
-        title: 'Shindler\'s List',
-        director: 'Steven Spielberg',
-        genre: 'Biography, Drama, History'
+        'movieId': 6,
+        'title': 'Shindler\'s List',
+        'movieDescription': 'The description for Shindler\'s List goes here.',
+        'director': {
+            'directorName': 'Steven Spielberg',
+            'directorBio': 'Steven Spielberg bio goes here',
+            'directorBirth': 'May 20, 1940',
+            'directorDeath': ''
+        },
+        'genre': {
+            'genreName': 'History',
+            'genreDescription': 'Description for History goes here'
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': false
     },
     {
-        movieId: 7,
-        title: 'The Lord of the Rings: The Return of the King',
-        director: 'Peter Jackson',
-        genre: 'Action, Adventure, Drama'
+        'movieId': 7,
+        'title': 'The Lord of the Rings: The Return of the King',
+        'movieDescription': 'The description for The Lord of the Rings: The Return of the King goes here.',
+        'director': {
+            'directorName': 'Peter Jackson',
+            'directorBio': 'Peter Jackson bio goes here',
+            'directorBirth': 'June 25, 1950',
+            'directorDeath': ''
+        },
+        'genre': {
+            'genreName': 'Adventure',
+            'genreDescription': 'Description for adventure goes here'
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': true
     },
     {
-        movieId: 8,
-        title: 'Pulp Fiction',
-        director: 'Quenton Tarantino',
-        genre: 'Crime, Drama'
+        'movieId': 8,
+        'title': 'Pulp Fiction',
+        'movieDescription': 'The description for Pulp Fiction goes here.',
+        'director': {
+            'directorName': 'Quenton Tarantino',
+            'directorBio': 'Quentin Tarantino bio goes here',
+            'directorBirth': 'July 30, 1960',
+            'directorDeath': '',
+        },
+        'genre': {
+            'genreName': 'Drama',
+            'genreDescription': 'Description for drama goes here',
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': false
     },
     {
-        movieId: 9,
-        title: 'The Lord of the Rings: The Fellowship of the Ring',
-        director: 'Peter Jackson',
-        genre: 'Action, Adventure, Drama'
+        'movieId': 9,
+        'title': 'The Lord of the Rings: The Fellowship of the Ring',
+        'movieDescription': 'The description for The Lord of the Rings: The Fellowship of the Ring goes here',
+        'director': {
+            'directorName': 'Peter Jackson',
+            'directorBio': 'Peter Jackson bio goes here',
+            'directorBirth': 'June 25, 1950',
+            'directorDeath': ''
+        },
+        'genre': {
+            'genreName': 'Adventure',
+            'genreDescription': 'Description for adventure goes here'
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': true
     },
     {
-        movieId: 10,
-        title: 'The Good, the Bad and the Ugly',
-        director: 'Sergio Leone',
-        genre: 'Adventure, Western'
+        'movieId': 10,
+        'title': 'The Good, the Bad and the Ugly',
+        'movieDescription': 'The description for The Good, the Bad and the Ugly goes here.',
+        'director': {
+            'directorName': 'Sergio Leone',
+            'directorBio': 'Sergio Leone bio goes here',
+            'directorBirth': 'August 24, 1925',
+            'directorDeath': 'September 25, 2005',
+        },
+        'genre': {
+            'genreName': 'Western',
+            'genreDescription': 'Description for western goes here',
+        },
+        'movieImageURL': 'An Image URL for the movie goes here',
+        'featured': false
     },
 ];
 
-let director = [
-    {
-        directorId: 1,
-        directorName: 'Francis Ford Coppola',
-        movies: 'The Godfather, The Godfather Part II'
-    },
-    {
-        directorId: 2,
-        directorName: 'Peter Jackson',
-        movies: 'The Lord of the Rings: The Fellowship of the Ring, The Lord of the Rings: The Return of the King'
-    },
-    {
-        directorId: 3,
-        directorName: 'Christopher Nolan',
-        movies: 'The Dark Knight'
-    }
-];
 let users = [
     {
-        userId: 1,
-        name: 'Mike Cillo',
-        userName: 'MCillo',
-        favorites: 'The Dark Knight'
+        'userId': 1,
+        'userName': 'Mike Cillo',
+        'userFavorites': ['The Dark Knight']
     },
     {
-        userId: 2,
-        name: 'John Doe',
-        userName: 'moviebuff',
-        favorites: 'The Lord of the Rings: The Return of the King'
+        'userId': 2,
+        'userName': 'John Doe',
+        'userFavorites': ['The Lord of the Rings: The Return of the King']
     },
     {
-        userId: 3,
-        name: 'Suzy Somebody',
-        userName: 'suzyWhatchAlot',
-        favorites: 'Pulp Fiction'
-    }
-];
-
-let genre = [
-    {
-        genreId: 1,
-        genreName: 'Action',
-        genreDescription: 'Action means explosions and gunfights'
-    },
-    {
-        genreId: 2,
-        genreName: 'Adventure',
-        genreDescription: 'Similiar to action but with less explosions'
-    },
-    {
-        genreId: 3,
-        genreName: 'Anime',
-        genreDescription: 'Cartoon but for an older audience'
+        'userId': 3,
+        'userName': 'Suzy Somebody',
+        'userFavorites': ['12 Angry Men']
     }
 ];
 
@@ -139,89 +211,115 @@ app.use(express.static('public'));
 
 // HTTP GET request that returns all the movies, the finished app would return a JSON object with all the movie data
 app.get('/movies', (req, res) => {
-    res.json(movies);
-
-    // Response for testing purposes, to be changed before deploying app
-    res.send('Here is the list of all the movies that you requested.');
+    res.status(200).json(movies);
 });
 
 // HTTP GET request that returns data for a single movie to the user, the finished app will return a JSON object with the selected movie's data
 app.get('/movies/:title', (req, res) => {
-    //res.json(movies.find((title) => { return movies.title === req.params.title }));
-    res.send('Here is the data for the movie that you requested.');
+
+    const { title } = req.params; // <= object destructuring
+    const movie = movies.find(movie => movie.title === title);
+
+    if (movie) {
+        res.status(200).json(movie);
+    } else {
+        res.status(400).send('The movie you requested could not be found!');
+    }
 });
 
 // HTTP GET request that returns data about a selected "Genre" to the user, the finished app will return a JSON object with the selected genre's data
-app.get('/genre/:genreName', (req, res) => {
-    //res.json(movies.find((genre) => { return movies.genre === req.params.genre }));
+app.get('/movies/genre/:genreName', (req, res) => {
 
-    // Response for testing purposes, to be changed before deploying app
-    res.send('Here is the data for the genre that you requested.');
+    const { genreName } = req.params;
+    const genre = movies.find(movie => movie.genre.genreName === genreName).genre;
+
+    if (genre) {
+        res.status(200).json(genre);
+    } else {
+        res.status(400).send('The genre you requested could not be found!');
+    }
 });
 
 // HTTP GET request that returns data about a selected director to the user, the finished app will return a JSON object with the selected director's data
-app.get('/director/:directorName', (req, res) => {
+app.get('/movies/director/:directorName', (req, res) => {
 
-    //res.json(movies.find((director) => { return movies.director === req.params.director }));
+    const { directorName } = req.params;
+    const director = movies.find(movie => movie.director.directorName === directorName).director;
 
-    // Response for testing purposes, to be changed before deploying app
-    res.send('Here is the data for the director that you requested.');
+    if (director) {
+        res.status(200).json(director);
+    } else {
+        res.status(400).send('The Director you requested could not be found!');
+    }
 });
 
 // HTTP POST request that creates a new user in the user registry,
 app.post('/users', (req, res) => {
-    let newUser = req.body;
+    const newUser = req.body;
 
-    if (!newUser.name) {
-        const message = 'Missing "name" in request body';
-        res.status(400).send(message);
-    } else {
+    if (newUser.name) {
         newUser.id = uuid.v4();
         users.push(newUser);
-        res.status(201).send(newUser);
+        res.status(201).json(newUser)
+    } else {
+        res.status(400).send('Name is required for New Users!');
     }
 });
 
 // HTTP PUT request that allows users to update their username
-app.put('/users/:name', (req, res) => {
-    let userName = users.find((userName) => { return userName.name === req.params.name });
+app.put('/users/:userId', (req, res) => {
+    const { userId } = req.params;
+    const updatedUser = req.body;
 
-    // Response for testing purposes, to be changed before deploying app
-    res.send('You have succussfully updated your user name.');
+    let user = users.find(user => user.userId == userId);
 
-    // if else statement to allow user to update their username, and return a message for failure or success
-
-});
-
-// HTTP PUT request that allows users to add a favorite movie to their list
-app.put('/users/:favorites', (req, res) => {
-    let userFavoriteMovies = users.find((userFavoriteMovies) => { return userFavoriteMovies.favorites === req.params.favorites });
-
-    // Response for testing purposes, to be changed before deploying app
-    res.send('You have added a movie to your favorites list.');
-
-    // if else statement to allow user to add a movie to their favorites list, and return a message for failure or success
-
-});
-
-// HTTP REMOVE request that allows users to remove a favorite movie from their list
-app.delete('/users/:favorites', (req, res) => {
-    let userFavoriteMovies = users.find((userFavoriteMovies) => { return users.favorites === req.params.favorites });
-
-    if (userFavoriteMovies) {
-        users = users.filter((obj) => { return obj.favorites !== req.params.favorites });
-        res.status(201).send('Favorite ' + req.params.favorites + ' was removed.');
+    if (user) {
+        user.userName = updatedUser.userName;
+        res.status(200).json(user);
+    } else {
+        res.status(400).send('The user could not be found!');
     }
 });
 
+// HTTP POST request that allows users to add a favorite movie to their list
+app.put('/users/:userId/:movieTitle', (req, res) => {
+    const { userId, movieTitle } = req.params;
+
+    let user = users.find(user => user.userId == userId);
+
+    if (user) {
+        user.userFavorites.push(movieTitle);
+        res.status(200).json(user).send('Movie added to users favorites list!');
+    } else {
+        res.status(400).send('The user could not be found!');
+    }
+});
+
+// HTTP REMOVE request that allows users to remove a favorite movie from their list
+app.delete('/users/:userId/:movieTitle', (req, res) => {
+    const { userId, movieTitle } = req.params;
+
+    let user = users.find(user => user.userId == userId);
+
+    if (user) {
+        user.userFavorites = user.userFavorites.filter(title => title !== movieTitle);
+        res.status(200).send(`${movieTitle} was removed from user ${userId}'s favorites list!`);
+    } else {
+        res.status(400).send('The user could not be found!');
+    }
+});
 
 // HTTP REMOVE request that allows users to deregister their account
-app.delete('users/:userName', (req, res) => {
-    let searchName = users.find((userName) => { return searchName.userName === req.params.userName });
+app.delete('/users/:userId', (req, res) => {
+    const { userId } = req.params;
 
-    if (searchName) {
-        users = users.filter((obj) => { return obj.userName !== req.params.userName });
-        res.status(201).send('User ' + req.params.userName + ' has been deleted from our records.');
+    let user = users.find(user => user.userId == userId);
+
+    if (user) {
+        users = users.filter(user => user.userId != userId);
+        res.status(200).send(`User ${userId} has been deleted!`);
+    } else {
+        res.status(400).send('The user could not be found!');
     }
 });
 
