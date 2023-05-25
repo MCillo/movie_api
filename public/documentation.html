@@ -40,27 +40,27 @@
                     <td>GET</td>
                     <td>None</td>
                     <td>A JSON object holding data about a single movie: containing movie ID, name, director, genre,
-                        description, image URL, featured(boolean). Example: <br>{ <br>movieId: 1 <br>title: The Shawshank Redemption <br>director: { <br>directorName: Frank Darabont <br>directorBio: Frank Darabont's bio <br>directorBirth: January 01, 1950 <br>directorDeath: Null <br>} <br>genre: { <br> genreName: Drama <br>genreDescription: Description for Drama <br> } <br> movieImageURL: image for the movie <br>featured: false <br> } </td>
+                        description, image URL, featured(boolean). Example: <br>{ <br>movieId: 1 <br>title: The Shawshank Redemption <br>Description: Movie Description<br>genre: { <br>Name: Drama <br>Description: Description for Drama <br> }<br>director: { <br>Name: Frank Darabont <br>Bio: Frank Darabont's bio <br>Birth: January 01, 1950 <br>Death: Null <br>}  <br> ImagePath: image for the movie <br>featured: false <br> } </td>
                 </tr>
                 <tr>
-                    <td>Return Data about a genre (description) by name/title e.g., "Thriller"</td>
+                    <td>Return Data about a genre (description) by name/title e.g., "Drama"</td>
                     <td>/movies/[Genre]</td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>A JSON object holding data about the genre selected Example: <br> { <br> genreName: Drama <br>genreDescription: Description for Drama <br> } </td>
+                    <td>A JSON object holding data about the genre selected Example: <br> { <br> Name: Drama <br>Description: Description for Drama <br> } </td>
                 </tr>
                 <tr>
                     <td>Return data about a director (bio, birth year, death year) by name</td>
                     <td>/movies/[Director]</td>
                     <td>GET</td>
                     <td>None</td>
-                    <td>A JSON object holding data about the director selected. Example: <br> { <br>directorName: Frank Darabont <br>directorBio: Frank Darabont's bio <br>directorBirth: January 01, 1950 <br>directorDeath: Null <br>} </td>
+                    <td>A JSON object holding data about the director selected. Example: <br> { <br>Name: Frank Darabont <br>Bio: Frank Darabont's bio <br>Birth: January 01, 1950 <br>Death: Null <br>} </td>
                 </tr>
                 <tr>
                     <td>Allow new users to register</td>
                     <td>/users</td>
                     <td>POST</td>
-                    <td>A JSON object holding data about the user to add: Structured Like: <br>{ <br>name: Jane Doe <br>userName: JaneUserDoe <br> favorites: Pulp Fiction <br>} <br></td>
+                    <td>A JSON object holding data about the user to add: Structured Like: <br>{ <br>name: John Doe <br>userName: moviebuff1<br>email: johndoe@email.com<br>password: Password1<br>birthdate: 1978-05-19<br> favorites: The Shawshank Redemption <br>} <br></td>
                     <td>A text informing the user of successful registration</td>
                 </tr>
                 <tr>
