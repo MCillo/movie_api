@@ -29,7 +29,6 @@ app.get('/', (req, res) => { // http GET request that returns welcome message
 app.use(express.static('public'));
 
 
-// WORKS
 // HTTP GET request that returns all the movies from MongoDB
 app.get('/movies', (req, res) => {
     Movies.find()
@@ -42,21 +41,18 @@ app.get('/movies', (req, res) => {
         });
 });
 
-// WORKS
 // HTTP GET request that returns data for a single movie to the user, the finished app will return a JSON object with the selected movie's data
-app.get('/Movies/:Title', (req, res) => {
-
+app.get('/movies/:Title', (req, res) => {
     Movies.findOne({ Title: req.params.Title })
-        .then((movies) => {
-            res.status(200).json(movies);
+        .then((movie) => {
+            res.status(201).json(movie);
         })
         .catch((err) => {
             console.error(err);
-            res.status(500).send('Error ' + err);
+            res.status(500), send('Error: ' + err);
         });
 });
 
-//WORKS
 // HTTP GET request that returns data about a selected "Genre" to the user, the finished app will return a JSON object with the selected genre's data
 app.get('/Movies/Genre/:Name', (req, res) => {
     Movies.find({ 'Genre.Name': req.params.Name }, { 'Genre.Name': 1, 'Genre.Description': 1, _id: 0 })
@@ -69,12 +65,9 @@ app.get('/Movies/Genre/:Name', (req, res) => {
         });
 });
 
-// WORKS
 // HTTP GET request that returns data about a selected director to the user, the finished app will return a JSON object with the selected director's data
 app.get('/movies/Director/:Name', (req, res) => {
 
-    // const { directorName } = req.params;
-    // const director = movies.find(movie => movie.director.directorName === directorName).director;
     Movies.find({ 'Director.Name': req.params.Name }, { 'Director.Name': 1, 'Director.Bio': 1, _id: 0 })
         .then((movie) => {
             res.json(movie);
@@ -86,7 +79,6 @@ app.get('/movies/Director/:Name', (req, res) => {
 
 });
 
-// WORKS
 // HTTP GET request for all users from MongoDB 
 app.get('/users', (req, res) => {
     Users.find()
@@ -99,7 +91,6 @@ app.get('/users', (req, res) => {
         });
 });
 
-// WORKS
 // HTTP GET request for user by username from MongoDB
 app.get('/users/:Username', (req, res) => {
     Users.findOne({ Username: req.params.Username })
@@ -112,7 +103,6 @@ app.get('/users/:Username', (req, res) => {
         });
 });
 
-// WORKS
 // NEW HTTP Post request to create a new user in the external MongoDB
 /* Expect JSON in the format
 {
@@ -149,7 +139,6 @@ app.post('/users', (req, res) => {
         });
 });
 
-
 // HTTP PUT request that allows users to update their username
 /* Expect JSON in the format
 {
@@ -166,42 +155,67 @@ app.put('/users/:Username', (req, res) => {
             Password: req.body.Password,
             Email: req.body.Email,
             Birthday: req.body.Birthday
-        },
+        }
     },
         { new: true }, // This line makes sure that the updated document is returned
-        (err, updatedUser) => {
-            if (err) {
+    )
+        .then((updatedUser) => {
+            if (!updatedUser) {
                 console.error(err);
-                res.status(500).send('Error: ' + err);
+                return res.status(404).send('Error: Username already exists.');
             } else {
-                res.status(201).json(updatedUser);
+                res.json(updatedUser);
             }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
         });
 });
 
 // HTTP POST request that allows users to add a favorite movie to their list
 app.post('/users/:Username/movies/:MovieID', (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
-        $push: { Favorites: req.params.MovieID }
+        $push: { FavoriteMovies: req.params.MovieID }
     },
         { new: true }, // This line makes sure that the updated document is returned
-        (err, updatedUser) => {
-            if (err) {
+    )
+        .then((updatedUser) => {
+            if (!updatedUser) {
                 console.error(err);
-                res.status(500).send('Error: ' + err);
+                res.status(404).send('Error: User does not exist.');
             } else {
-                res.status(201).send.json(updatedUser);
+                res.json(updatedUser);
             }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
         });
 });
 
 // HTTP REMOVE request that allows users to remove a favorite movie from their list
 app.delete('/users/:Username/movies/:MovieID', (req, res) => {
-
+    Users.findOneAndUpdate({ Username: req.params.Username }, {
+        $pull: { FavoriteMovies: req.params.MovieID }
+    },
+        { new: true }, // This line makes sure that the updated document is returned
+    )
+        .then((updatedUser) => {
+            if (!updatedUser) {
+                console.error(err);
+                res.status(404).send('Error: User does not exist.');
+            } else {
+                res.json(updatedUser);
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
 });
 
-// WORKS
-// HTTP REMOVE request that allows users to deregister their account
+// HTTP REMOVE request that allows users to delete their account
 app.delete('/users/:Username', (req, res) => {
     Users.findOneAndRemove({ Username: req.params.Username })
         .then((user) => {
@@ -234,3 +248,4 @@ app.use((err, req, res, next) => {
 app.listen(8080, () => {
     console.log('Your app is listening on port 8080');
 })
+
