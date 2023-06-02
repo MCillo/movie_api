@@ -19,10 +19,15 @@ app.use(morgan('common'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// calling on authentiacation functions for ability to authenticate users
+let auth = require('./auth')(app);  // imports auth.js file to be used in the project, (app) argument ensures that Express is available in auth.js file as well
+const passport = require('passport'); //  requires passport module
+require('./passport');  // imports the passport.js file for use 
+
 // HTTP Requests
 
-// Get requests
-app.get('/', (req, res) => { // http GET request that returns welcome message
+// HTTP GET request that returns welcome message
+app.get('/', (req, res) => {  //  request has 2 parameters: URL = '/', and callback function = (req, res)
     res.send('Welcome to Movie Tracker!');
 });
 
@@ -30,7 +35,7 @@ app.use(express.static('public'));
 
 
 // HTTP GET request that returns all the movies from MongoDB
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {  //  request has 3 parameters: URL = '/movies', authenticate function ,and callback function
     Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
