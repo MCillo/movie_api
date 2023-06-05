@@ -5,6 +5,7 @@ const methodOverride = require('method-override'); // Imports method-override, t
 const uuid = require('uuid'); // Imports uuid module for creating specific id's for movies and users
 const mongoose = require('mongoose');  // Imports mongoose allowing CRUD operations on the MongoDB
 const Models = require('./models.js');  // Imports the DB model schemas from models.js to enforce attributes defined in models.js
+const { check, validationResult } = require('express-validator');
 
 const Movies = Models.Movie; // creates a variable to use the Movie model
 const Users = Models.User;  // creates a variable to use the User model
@@ -14,16 +15,31 @@ mongoose.connect('mongodb://localhost:27017/MyFlix', { useNewUrlParser: true, us
 
 const app = express(); // creates a varaiable that encapsulates Express's functionality to configure the web server
 
-// calling on the middleware functions 
-app.use(morgan('common'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const cors = require('cors'); // requires CORS (Cross-Origin Resource Sharing) for data security in app
+//app.use(cors()); // allows requests from all origins
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com']; // restricts access to only the included origin domains
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) { // if a specific origin isn't found on the list of allowed origins
+            let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+            return callback(new Error(message), false);
+        }
+        return callback(null, true);
+    }
+}));
+
+
 
 // calling on authentiacation functions for ability to authenticate users
 let auth = require('./auth')(app);  // imports auth.js file to be used in the project, (app) argument ensures that Express is available in auth.js file as well
 const passport = require('passport'); //  requires passport module
 require('./passport');  // imports the passport.js file for use 
 
+// calling on the middleware functions 
+app.use(morgan('common'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 // HTTP Requests
 
 // HTTP GET request that returns welcome message
@@ -119,6 +135,22 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
 }
 */
 app.post('/users', (req, res) => {
+    // Validation logic 
+    [
+        check('Username', 'Username is required').isLength({ min: 5 }),
+        check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+        check('Password', 'Password is required').not().isEmpty(),
+        check('Email', 'Email does not appear to be valid').isEmail()
+    ], (req, res) => {
+        // check the validation object for errors
+        let errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+    }
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username }) // checks to see if username already exists in DB
         .then((user) => {
             if (user) {
@@ -127,7 +159,7 @@ app.post('/users', (req, res) => {
                 Users
                     .create({  // Mongoose's create command creates a new user if username is not already in DB
                         Username: req.body.Username,
-                        Password: req.body.Password,
+                        Password: hashedPassword,
                         Email: req.body.Email,
                         Birthday: req.body.Birthday
                     })
@@ -249,8 +281,8 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something Broke!');
 });
 
-// listen for requests
-app.listen(8080, () => {
-    console.log('Your app is listening on port 8080');
-})
-
+// Listens for requests
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+    console.log('Listening on Port ' + port);
+});
