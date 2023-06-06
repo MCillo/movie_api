@@ -1,2 +1,4 @@
 node_modules
 .DS_Store
+myFlixDB_Movies
+myFlixDB_Users
