@@ -12,7 +12,7 @@ const Users = Models.User;  // creates a variable to use the User model
 
 //mongoose.connect('mongodb://localhost:27017/MyFlix', { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to the DB allowing CRUD operations from the API
 //mongoose.connect('mongodb://localhost:8080/MyFlix', { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to the DB allowing CRUD operations from the API
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to the DB allowing CRUD operations from the API
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to MongoDB Atlas
 
 const app = express(); // creates a varaiable that encapsulates Express's functionality to configure the web server
 
