@@ -184,6 +184,17 @@ app.post('/users', (req, res) => {
     Birthday: Date
 }*/
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+    [
+        check('Username', 'Username is required').isLength({ min: 5 }),
+    ], (req, res) => {
+        // check the validation object for errors
+        let errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+    }
     Users.findOneAndUpdate({ Username: req.params.Username }, {
         $set:
         {
@@ -253,6 +264,17 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
 
 // HTTP REMOVE request that allows users to delete their account
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+    [
+        check('Username', 'Username is required').isLength({ min: 5 }),
+    ], (req, res) => {
+        // check the validation object for errors
+        let errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
+
+    }
     Users.findOneAndRemove({ Username: req.params.Username })
         .then((user) => {
             if (!user) {
