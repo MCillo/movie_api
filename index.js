@@ -18,17 +18,17 @@ const app = express(); // creates a varaiable that encapsulates Express's functi
 
 const cors = require('cors'); // requires CORS (Cross-Origin Resource Sharing) for data security in app
 app.use(cors()); // allows requests from all origins
-// let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234']; // restricts access to only the included origin domains
-// app.use(cors({
-//   origin: (origin, callback) => {
-//     if (!origin) return callback(null, true);
-//     if (allowedOrigins.indexOf(origin) === -1) { // if a specific origin isn't found on the list of allowed origins
-//       let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
-//       return callback(new Error(message), false);
-//     }
-//     return callback(null, true);
-//   }
-// }));
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234']; // restricts access to only the included origin domains
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) { // if a specific origin isn't found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn\'t allow access from origin ' + origin;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 // calling on authentiacation functions for ability to authenticate users
 let auth = require('./auth')(app);  // imports auth.js file to be used in the project, (app) argument ensures that Express is available in auth.js file as well
