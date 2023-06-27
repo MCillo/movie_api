@@ -18,7 +18,7 @@ const app = express(); // creates a varaiable that encapsulates Express's functi
 
 const cors = require('cors'); // requires CORS (Cross-Origin Resource Sharing) for data security in app
 app.use(cors()); // allows requests from all origins
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234']; // restricts access to only the included origin domains
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://myflixapp-765.herokuapp.com/']; // restricts access to only the included origin domains
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
@@ -30,16 +30,15 @@ app.use(cors({
   }
 }));
 
-// calling on the middleware functions 
-app.use(morgan('common'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // calling on authentiacation functions for ability to authenticate users
 let auth = require('./auth')(app);  // imports auth.js file to be used in the project, (app) argument ensures that Express is available in auth.js file as well
 const passport = require('passport'); //  requires passport module
 require('./passport');  // imports the passport.js file for use 
 
+// calling on the middleware functions 
+app.use(morgan('common'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // HTTP Requests
 
