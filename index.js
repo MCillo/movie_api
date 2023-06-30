@@ -49,7 +49,7 @@ app.get('/', (req, res) => {  //  request has 2 parameters: URL = '/', and callb
 app.use(express.static('public'));
 
 // HTTP GET request that returns all the movies from MongoDB
-app.get('/movies', (req, res) => {  //  request has 2 parameters: URL = '/movies' and callback function
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {  //  request has 2 parameters: URL = '/movies' and callback function
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
