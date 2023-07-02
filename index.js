@@ -29,11 +29,6 @@ app.use(cors({
     return callback(null, true);
   }
 }));
-// calling on authentiacation functions for ability to authenticate users
-let auth = require('./auth')(app);  // imports auth.js file to be used in the project, (app) argument ensures that Express is available in auth.js file as well
-const passport = require('passport'); //  requires passport module
-require('./passport');  // imports the passport.js file for use 
-
 
 // calling on the middleware functions 
 app.use(morgan('common'));
