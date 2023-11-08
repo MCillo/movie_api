@@ -18,7 +18,7 @@ const app = express(); // creates a varaiable that encapsulates Express's functi
 
 const cors = require('cors'); // requires CORS (Cross-Origin Resource Sharing) for data security in app
 //app.use(cors()); // allows requests from all origins
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://myflixapp-765.herokuapp.com', 'https://myflix765.netlify.app', 'http://localhost:4200']; // restricts access to only the included origin domains
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://myflixapp-765.herokuapp.com', 'https://myflix765.netlify.app', 'http://localhost:4200', 'https://mcillo.github.io']; // restricts access to only the included origin domains
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
