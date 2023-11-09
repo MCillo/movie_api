@@ -1,3 +1,5 @@
+The following imports
+
 const express = require('express'); // Imports the Express module and assigns it to the variable express so that it can be used 
 const morgan = require('morgan'); // Imports morgan, to be used to log URL requests
 const bodyParser = require('body-parser'); // Imports body-parser, to be used for error handling
@@ -10,8 +12,7 @@ const { check, validationResult } = require('express-validator');
 const Movies = Models.Movie; // creates a variable to use the Movie model
 const Users = Models.User;  // creates a variable to use the User model
 
-//mongoose.connect('mongodb://localhost:27017/MyFlix', { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to the DB allowing CRUD operations from the API
-//mongoose.connect('mongodb://localhost:8080/MyFlix', { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to the DB allowing CRUD operations from the API
+
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to MongoDB Atlas
 
 const app = express(); // creates a varaiable that encapsulates Express's functionality to configure the web server
