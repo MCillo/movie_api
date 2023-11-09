@@ -113,7 +113,13 @@ app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) =
 // HTTP GET request for user by username from MongoDB
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ Username: req.params.Username })
+    .populate({ path: 'FavoriteMovies' })
     .then((user) => {
+      if (!user) {
+        return res
+          .status(404)
+          .send('Error: ' + req.params.Username + ' was not found');
+      }
       res.json(user);
     })
     .catch((err) => {
