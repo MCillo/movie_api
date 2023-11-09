@@ -1,5 +1,6 @@
-The following imports
-
+/**
+ * The following imports are required for the API functionality
+*/
 const express = require('express'); // Imports the Express module and assigns it to the variable express so that it can be used 
 const morgan = require('morgan'); // Imports morgan, to be used to log URL requests
 const bodyParser = require('body-parser'); // Imports body-parser, to be used for error handling
