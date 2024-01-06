@@ -30,6 +30,7 @@ let allowedOrigins = [   // restricts access to only the included origin domains
   'https://myflix765.netlify.app',
   'http://localhost:4200',
   'https://mcillo.github.io',
+  'https://45.20.16.153', // My IP according to checkip
   'https://54.242.227.157/', //Amazon EC2 Instance for MongoDB
   'https://52.73.113.117/'  //Amazon EC2 Instance for this API
 ];
