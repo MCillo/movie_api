@@ -14,13 +14,25 @@ const Movies = Models.Movie; // creates a variable to use the Movie model
 const Users = Models.User;  // creates a variable to use the User model
 
 
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to MongoDB Atlas
+//mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to MongoDB Atlas
+mongoose.connect("mongodb://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.net/:27017/myFlixDB");
+
 
 const app = express(); // creates a varaiable that encapsulates Express's functionality to configure the web server
 
 const cors = require('cors'); // requires CORS (Cross-Origin Resource Sharing) for data security in app
 //app.use(cors()); // allows requests from all origins
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://myflixapp-765.herokuapp.com', 'https://myflix765.netlify.app', 'http://localhost:4200', 'https://mcillo.github.io']; // restricts access to only the included origin domains
+let allowedOrigins = [   // restricts access to only the included origin domains
+  'http://localhost:8080', // localhost machine
+  'http://testsite.com',
+  'http://localhost:1234',
+  'https://myflixapp-765.herokuapp.com', //client side app hosted on heroku
+  'https://myflix765.netlify.app',
+  'http://localhost:4200',
+  'https://mcillo.github.io',
+  'https://54.242.227.157/', //Amazon EC2 Instance for MongoDB
+  'https://52.73.113.117/'  //Amazon EC2 Instance for this API
+];
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
