@@ -45,8 +45,10 @@ let allowedOrigins = [   // restricts access to only the included origin domains
   'http://52.73.113.117/',  //Amazon EC2 Instance for this API
 
   'https://172.31.19.68/32', // trying something here
-  'http://172.31.19.68/32' // trying something here
+  'http://172.31.19.68/32', // trying something here
 
+  'https://my-flix-client-code.s3.amazonaws.com/src/index.html', // location in AWS S3 bucket
+  'http://my-flix-client-code.s3.amazonaws.com/src/index.html'
 ];
 app.use(cors({
   origin: (origin, callback) => {
