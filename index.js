@@ -38,11 +38,11 @@ let allowedOrigins = [   // restricts access to only the included origin domains
   'https://45.20.16.153', // My IP according to checkip
   'http://45.20.16.153', // My IP according to checkip
 
-  'https://54.242.227.157/', //Amazon EC2 Instance for MongoDB
-  'http://54.242.227.157/', //Amazon EC2 Instance for MongoDB
+  'https://54.174.235.42/', //Amazon EC2 Instance for MongoDB Public IP
+  'http://54.174.235.42/', //Amazon EC2 Instance for MongoDB
 
-  'https://52.73.113.117/',  //Amazon EC2 Instance for this API
-  'http://52.73.113.117/',  //Amazon EC2 Instance for this API
+  'https://54.196.11.95/',  //Amazon EC2 Instance for this API
+  'http://54.196.11.95/',  //Amazon EC2 Instance for this API
 
   'https://172.31.19.68/32', // trying something here
   'http://172.31.19.68/32', // trying something here
