@@ -14,7 +14,7 @@ const Movies = Models.Movie; // creates a variable to use the Movie model
 const Users = Models.User;  // creates a variable to use the User model
 
 
-mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to MongoDB Atlas
+// mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to MongoDB Atlas
 //mongoose.connect("mongodb://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.net:27017/myFlixDB"); // should allow connection to MongoDB from AWS EC2
 // mongoose.connect("mongodb://AWSUser:AWSConnect@172.31.27.50:27017/myFlixDB");
 mongoose.connect('mongodb+srv://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.net/myFlixDB', {
