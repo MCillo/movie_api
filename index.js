@@ -49,8 +49,11 @@ let allowedOrigins = [   // restricts access to only the included origin domains
 
   'http://18.215.146.253/32', // trying something here
 
-  'http://34.203.234.174', // trying something here
-  'http://172.31.20.161',
+  'http://34.203.234.174', // New AWS EC2 instance id i-04400fada97d48317 MyFlix_API-Instance IP's Public IP
+  'http://172.31.20.161',  // Private IP
+
+  'http://54.83.113.51', // New AWS EC2 instance id i-06fa82c71d266dfc9 MyFlix-MongoDB-Instance IP's Public IP
+  'http://172.31.27.92',  // Private IP
 
   'https://my-flix-client-code.s3.amazonaws.com/src/index.html', // location in AWS S3 bucket
   'http://my-flix-client-code.s3.amazonaws.com/src/index.html'
