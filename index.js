@@ -49,7 +49,8 @@ let allowedOrigins = [   // restricts access to only the included origin domains
 
   'http://18.215.146.253/32', // trying something here
 
-  'http://34.203.234.174/32', // trying something here
+  'http://34.203.234.174', // trying something here
+  'http://172.31.20.161',
 
   'https://my-flix-client-code.s3.amazonaws.com/src/index.html', // location in AWS S3 bucket
   'http://my-flix-client-code.s3.amazonaws.com/src/index.html'
