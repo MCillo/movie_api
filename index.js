@@ -53,7 +53,7 @@ let allowedOrigins = [   // restricts access to only the included origin domains
   'http://172.31.20.161',  // Private IP
 
   'http://54.83.113.51', // New AWS EC2 instance id i-06fa82c71d266dfc9 MyFlix-MongoDB-Instance IP's Public IP
-  'http://172.31.27.92',  // Private IP
+  'http://172.31.27.92',  // Private IP 
 
   'https://my-flix-client-code.s3.amazonaws.com/src/index.html', // location in AWS S3 bucket
   'http://my-flix-client-code.s3.amazonaws.com/src/index.html'
