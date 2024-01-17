@@ -372,31 +372,37 @@ app.get('/images', (req, res) => {
     });
 });
 
-app.get('/images/:key', (req, res) => {
-  const getObjectParams = {
-    Bucket: 'my-localstack-bucket',
-    Key: req.params.key // Use the key (filename) from the request parameters
-  };
+// Request to upload an image to the bucket
+// Method 1 hard coded parameters
+// app.post('/upload', (req, res) => {
+//   const uploadParams = {
+//     Bucket: 'my-localstack-bucket',
+//     Key: 'StarWarsEpisode1.jpg',
+//     Body: fs.createReadStream('/Users/michaelcillo/StarWarsEpisode1.jpg'),
+//     ContentType: 'image/jpg'
+//   };
 
-  s3Client.send(new GetObjectCommand(getObjectParams))
-    .then((getObjectResponse) => {
-      res.send(getObjectResponse);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error retrieving image');
-    });
-});
+//   s3Client.send(new PutObjectCommand(uploadParams))
+//     .then((uploadResponse) => {
+//       res.send(uploadResponse);
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.status(500).send('Error uploading image');
+//     });
+// });
 
+// Method 2 request for parameters in body not hard coded
 app.post('/upload', (req, res) => {
+  console.log(req);
   const uploadParams = {
-    Bucket: 'my-localstack-bucket',
-    Key: 'test-image-3.jpg',
-    Body: fs.createReadStream('/Users/michaelcillo/test-image-3.jpg'),
-    ContentType: 'image/jpg'
+    Bucket: req.body.Bucket,
+    Key: req.body.Key,
+    Body: fs.createReadStream(req.body.Body),
+    ContentType: 'image/jpg',
   };
-
-  s3Client.send(new PutObjectCommand(uploadParams))
+  s3Client
+    .send(new PutObjectCommand(uploadParams))
     .then((uploadResponse) => {
       res.send(uploadResponse);
     })
@@ -405,6 +411,32 @@ app.post('/upload', (req, res) => {
       res.status(500).send('Error uploading image');
     });
 });
+
+// Request to retrieive an image from 
+app.get('/images/:key', (req, res) => {
+  // Method 1 Hardcoded 
+  const key = req.query.Key;
+  const getObjectParams = {
+    Bucket: 'my-localstack-bucket',
+    Key: key, // Use the key (filename) from the request parameters
+  };
+  // Method 2 
+  // const getObjectParams = {
+  //   Bucket: req.body.Bucket,
+  //   Key: req.body.Key, 
+  // };
+
+  s3Client.send(new GetObjectCommand(getObjectParams))
+    .then((getObjectResponse) => {
+      getObjectResponse.Body.pipe(res);
+      //res.send(getObjectResponse);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error retrieving image');
+    });
+});
+
 
 
 // CC Code End
