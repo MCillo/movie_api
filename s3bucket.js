@@ -1,3 +1,4 @@
+// code for Cloud Computing Ex 2.4
 const { S3Client, ListObjectsV2Command, GetObjectCommand, PutObjectCommand } = require('@aws-sdk/client-s3');
 const fs = require('fs');
 const express = require('express');
