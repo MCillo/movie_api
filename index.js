@@ -14,9 +14,8 @@ const Movies = Models.Movie; // creates a variable to use the Movie model
 const Users = Models.User;  // creates a variable to use the User model
 
 // Cloud Computing code start
-const { S3Client, ListObjectsV2Command, PutObjectCommand, PutObjectCommand } = require('@aws-sdk/client-s3'); // imports S3 client and commands to interact with bucket
+const { S3Client, ListObjectsV2Command, PutObjectCommand } = require('@aws-sdk/client-s3'); // imports S3 client and commands to interact with bucket
 const fs = require('fs');
-const express = require('express');
 // CC Code End
 
 
@@ -33,8 +32,7 @@ mongoose.connect('mongodb+srv://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.ne
 // Instantiate's an S3 Client Object
 const s3Client = new S3Client({ // Create a new S3Client for 
   region: 'us-east-1', // passing region when working with AWS or Localstack
-  //endpoint: 'http://localhost:4566', // Passing endpoint and forcePathStyle when working with localstack
-  endpoint: 'http://localhost:8080', // Passing endpoint and forcePathStyle when working with localstack
+  endpoint: 'http://localhost:4566', // Passing endpoint and forcePathStyle when working with localstack
 
   forcePathStyle: true
 });
@@ -362,7 +360,8 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 // For Listing the Items in the AWS S3 Bucket
 app.get('/images', (req, res) => {
   listObjectsParams.Bucket = 'my-localstack-bucket'; // Update the bucket name
-  s3Client.send(new ListObjectsV2Command(listObjectsParams))
+  s3Client
+    .send(new ListObjectsV2Command(listObjectsParams))
     .then((listObjectsResponse) => {
       console.log("Bucket Contents:", listObjectsResponse.Contents);
       res.send(listObjectsResponse);
@@ -376,7 +375,7 @@ app.get('/images', (req, res) => {
 app.get('/images/:key', (req, res) => {
   const getObjectParams = {
     Bucket: 'my-localstack-bucket',
-    //Key: req.params.key // Use the key (filename) from the request parameters
+    Key: req.params.key // Use the key (filename) from the request parameters
   };
 
   s3Client.send(new GetObjectCommand(getObjectParams))
@@ -392,8 +391,8 @@ app.get('/images/:key', (req, res) => {
 app.post('/upload', (req, res) => {
   const uploadParams = {
     Bucket: 'my-localstack-bucket',
-    Key: 'test-image.jpg',
-    Body: fs.createReadStream('/Users/michaelcillo/test-image.jpg'),
+    Key: 'test-image-3.jpg',
+    Body: fs.createReadStream('/Users/michaelcillo/test-image-3.jpg'),
     ContentType: 'image/jpg'
   };
 
