@@ -14,7 +14,9 @@ const Movies = Models.Movie; // creates a variable to use the Movie model
 const Users = Models.User;  // creates a variable to use the User model
 
 // Cloud Computing code start
-const { S3Client, ListObjectsV2Command, PutObjectCommand } = require('@aws-sdk/client-s3'); // imports S3 client and commands to interact with bucket
+const { S3Client, ListObjectsV2Command, PutObjectCommand, PutObjectCommand } = require('@aws-sdk/client-s3'); // imports S3 client and commands to interact with bucket
+const fs = require('fs');
+const express = require('express');
 // CC Code End
 
 
@@ -31,14 +33,16 @@ mongoose.connect('mongodb+srv://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.ne
 // Instantiate's an S3 Client Object
 const s3Client = new S3Client({ // Create a new S3Client for 
   region: 'us-east-1', // passing region when working with AWS or Localstack
-  endpoint: 'http://localhost:4566', // Passing endpoint and forcePathStyle when working with localstack
+  //endpoint: 'http://localhost:4566', // Passing endpoint and forcePathStyle when working with localstack
+  endpoint: 'http://localhost:8080', // Passing endpoint and forcePathStyle when working with localstack
+
   forcePathStyle: true
 });
 // CC Code End
 
 // Cloud Computing Code Start
 const listObjectsParams = { // Instantiates an object from classes for individual commands
-  Bucket: 'my-cool-local-bucket' // parameter of bucket name
+  Bucket: 'my-localstack-bucket' // parameter of bucket name
 }
 
 const listObjectsCmd = new ListObjectsV2Command(listObjectsParams) // Instantiates ListObjectsV2Command object to pass to S3 client 
@@ -357,14 +361,53 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 // Cloud Computing Code Start
 // For Listing the Items in the AWS S3 Bucket
 app.get('/images', (req, res) => {
-  listObjectsParams = {
-    Bucket: IMAGES_BUCKET // bucket name
-  }
+  listObjectsParams.Bucket = 'my-localstack-bucket'; // Update the bucket name
   s3Client.send(new ListObjectsV2Command(listObjectsParams))
     .then((listObjectsResponse) => {
-      res.send(listObjectsResponse)
+      console.log("Bucket Contents:", listObjectsResponse.Contents);
+      res.send(listObjectsResponse);
     })
-})
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error listing images');
+    });
+});
+
+app.get('/images/:key', (req, res) => {
+  const getObjectParams = {
+    Bucket: 'my-localstack-bucket',
+    //Key: req.params.key // Use the key (filename) from the request parameters
+  };
+
+  s3Client.send(new GetObjectCommand(getObjectParams))
+    .then((getObjectResponse) => {
+      res.send(getObjectResponse);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error retrieving image');
+    });
+});
+
+app.post('/upload', (req, res) => {
+  const uploadParams = {
+    Bucket: 'my-localstack-bucket',
+    Key: 'test-image.jpg',
+    Body: fs.createReadStream('/Users/michaelcillo/test-image.jpg'),
+    ContentType: 'image/jpg'
+  };
+
+  s3Client.send(new PutObjectCommand(uploadParams))
+    .then((uploadResponse) => {
+      res.send(uploadResponse);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error uploading image');
+    });
+});
+
+
 // CC Code End
 
 // error handling middleware called after all instances of app.use() except for app.listen()
