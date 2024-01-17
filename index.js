@@ -13,15 +13,36 @@ const { check, validationResult } = require('express-validator');
 const Movies = Models.Movie; // creates a variable to use the Movie model
 const Users = Models.User;  // creates a variable to use the User model
 
+// Cloud Computing code start
+const { S3Client, ListObjectsV2Command, PutObjectCommand } = require('@aws-sdk/client-s3'); // imports S3 client and commands to interact with bucket
+// CC Code End
+
 
 // mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to MongoDB Atlas
 //mongoose.connect("mongodb://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.net:27017/myFlixDB"); // should allow connection to MongoDB from AWS EC2
 // mongoose.connect("mongodb://AWSUser:AWSConnect@172.31.27.50:27017/myFlixDB");
+// For connecting with AWS instance
 mongoose.connect('mongodb+srv://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.net/myFlixDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
+// Cloud Computing Code Start
+// Instantiate's an S3 Client Object
+const s3Client = new S3Client({ // Create a new S3Client for 
+  region: 'us-east-1', // passing region when working with AWS or Localstack
+  endpoint: 'http://localhost:4566', // Passing endpoint and forcePathStyle when working with localstack
+  forcePathStyle: true
+});
+// CC Code End
+
+// Cloud Computing Code Start
+const listObjectsParams = { // Instantiates an object from classes for individual commands
+  Bucket: 'my-cool-local-bucket' // parameter of bucket name
+}
+
+const listObjectsCmd = new ListObjectsV2Command(listObjectsParams) // Instantiates ListObjectsV2Command object to pass to S3 client 
+// CC Code End
 
 const app = express(); // creates a varaiable that encapsulates Express's functionality to configure the web server
 
@@ -332,6 +353,19 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
       res.status(500).send('Error: ' + err);
     });
 });
+
+// Cloud Computing Code Start
+// For Listing the Items in the AWS S3 Bucket
+app.get('/images', (req, res) => {
+  listObjectsParams = {
+    Bucket: IMAGES_BUCKET // bucket name
+  }
+  s3Client.send(new ListObjectsV2Command(listObjectsParams))
+    .then((listObjectsResponse) => {
+      res.send(listObjectsResponse)
+    })
+})
+// CC Code End
 
 // error handling middleware called after all instances of app.use() except for app.listen()
 app.use(bodyParser.urlencoded({
