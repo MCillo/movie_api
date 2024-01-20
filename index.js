@@ -9,12 +9,13 @@ const uuid = require('uuid'); // Imports uuid module for creating specific id's 
 const mongoose = require('mongoose');  // Imports mongoose allowing CRUD operations on the MongoDB
 const Models = require('./models.js');  // Imports the DB model schemas from models.js to enforce attributes defined in models.js
 const { check, validationResult } = require('express-validator');
+const multer = require('multer')
 
 const Movies = Models.Movie; // creates a variable to use the Movie model
 const Users = Models.User;  // creates a variable to use the User model
 
 // Cloud Computing code start
-const { S3Client, ListObjectsV2Command, PutObjectCommand } = require('@aws-sdk/client-s3'); // imports S3 client and commands to interact with bucket
+const { S3Client, ListObjectsV2Command, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3'); // imports S3 client and commands to interact with bucket
 const fs = require('fs');
 // CC Code End
 
@@ -28,23 +29,6 @@ mongoose.connect('mongodb+srv://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.ne
   useUnifiedTopology: true,
 });
 
-// Cloud Computing Code Start
-// Instantiate's an S3 Client Object
-const s3Client = new S3Client({ // Create a new S3Client for 
-  region: 'us-east-1', // passing region when working with AWS or Localstack
-  endpoint: 'http://localhost:4566', // Passing endpoint and forcePathStyle when working with localstack
-
-  forcePathStyle: true
-});
-// CC Code End
-
-// Cloud Computing Code Start
-const listObjectsParams = { // Instantiates an object from classes for individual commands
-  Bucket: 'my-localstack-bucket' // parameter of bucket name
-}
-
-const listObjectsCmd = new ListObjectsV2Command(listObjectsParams) // Instantiates ListObjectsV2Command object to pass to S3 client 
-// CC Code End
 
 const app = express(); // creates a varaiable that encapsulates Express's functionality to configure the web server
 
@@ -58,28 +42,7 @@ let allowedOrigins = [   // restricts access to only the included origin domains
   'https://myflix765.netlify.app',
   'http://localhost:4200',
   'https://mcillo.github.io',
-  'https://45.20.16.153', // My IP according to checkip
-  'http://45.20.16.153', // My IP according to checkip
 
-  'https://54.174.235.42', //Amazon EC2 Instance for MongoDB Public IP
-  'http://54.174.235.42', //Amazon EC2 Instance for MongoDB
-
-  'https://54.196.11.95',  //Amazon EC2 Instance for this API
-  'http://54.196.11.95',  //Amazon EC2 Instance for this API
-
-  'https://172.31.19.68/32', // trying something here
-  'http://172.31.19.68/32', // trying something here
-
-  'http://18.215.146.253/32', // trying something here
-
-  'http://34.203.234.174', // New AWS EC2 instance id i-04400fada97d48317 MyFlix_API-Instance IP's Public IP
-  'http://172.31.20.161',  // Private IP
-
-  'http://54.83.113.51', // New AWS EC2 instance id i-06fa82c71d266dfc9 MyFlix-MongoDB-Instance IP's Public IP
-  'http://172.31.27.92',  // Private IP 
-
-  'https://my-flix-client-code.s3.amazonaws.com/src/index.html', // location in AWS S3 bucket
-  'http://my-flix-client-code.s3.amazonaws.com/src/index.html'
 ];
 app.use(cors({
   origin: (origin, callback) => {
@@ -102,6 +65,99 @@ app.use(bodyParser.urlencoded({ extended: true }));
 let auth = require('./auth')(app);  // imports auth.js file to be used in the project, (app) argument ensures that Express is available in auth.js file as well
 const passport = require('passport'); //  requires passport module
 require('./passport');  // imports the passport.js file for use 
+
+// Cloud Computing Code Start
+// Instantiate's an S3 Client Object
+const s3Client = new S3Client({ // Create a new S3Client for 
+  region: 'us-east-1', // passing region when working with AWS or Localstack
+  endpoint: 'http://localhost:4566', // Passing endpoint and forcePathStyle when working with localstack
+  // To access the S3 on AWS
+  // credentials: {
+  //   accessKeyId: "",
+  //   secretAccessKey: '',
+  // }
+
+  forcePathStyle: true
+});
+
+const bucketName = "my-localstack-bucket";  // bucket name or path
+const storage = multer.memoryStorage(); // stores the file in memory
+const uploadFile = multer({ storage });
+
+// Endpoint to list all images in a bucket
+
+app.get("/images", (req, res) => {
+  const listObjectsCommand = new ListObjectsV2Command({
+    Bucket: bucketName,
+  });
+
+  s3Client
+    .send(listObjectsCommand)
+    .then((listObjectsResponse) => {
+      res.send(listObjectsResponse);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: "Error listing images" });
+    });
+});
+
+
+// Endpoint to handle image upload
+app.post("/upload", uploadFile.single("image"), async (req, res) => {
+  console.log(req.file);
+  try {
+    const { originalname, buffer } = req.file;
+
+    // // Specify the S3 bucket and key (object key) for the image
+    // const objectKey = originalname; // Use the original file name
+
+    // Prepare the parameters for the S3 PUT operation
+    const params = {
+      Bucket: bucketName,
+      Key: originalname,
+      Body: buffer,
+    };
+
+    // Upload the image to the S3 bucket
+    await s3Client.send(new PutObjectCommand(params));
+
+    res.status(200).json({ message: "Image uploaded successfully" });
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    res.status(500).json({ error: "Image upload failed" });
+  }
+});
+
+
+// Endpoint to retrieve an image from a bucket
+
+app.get("/view-image/:key", async (req, res) => {
+  try {
+    const { key } = req.params;
+
+    // Prepare the parameters for the S3 GET operation
+    const params = {
+      Bucket: bucketName,
+      Key: key,
+    };
+
+    // Retrieve the image from S3
+    const { Body, ContentType } = await s3Client.send(
+      new GetObjectCommand(params)
+    );
+
+    // Set the appropriate headers for image response
+    res.setHeader("Content-Type", ContentType);
+
+    // Pipe the image data directly to the response
+    Body.pipe(res);
+  } catch (error) {
+    console.error("Error viewing image:", error);
+    res.status(500).send("Failed to view image from S3");
+  }
+});
+
+// CC Code End
 
 // HTTP GET request that returns welcome message
 app.get('/', (req, res) => {  //  request has 2 parameters: URL = '/', and callback function = (req, res)
@@ -355,91 +411,6 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
       res.status(500).send('Error: ' + err);
     });
 });
-
-// Cloud Computing Code Start
-// For Listing the Items in the AWS S3 Bucket
-app.get('/images', (req, res) => {
-  listObjectsParams.Bucket = 'my-localstack-bucket'; // Update the bucket name
-  s3Client
-    .send(new ListObjectsV2Command(listObjectsParams))
-    .then((listObjectsResponse) => {
-      console.log("Bucket Contents:", listObjectsResponse.Contents);
-      res.send(listObjectsResponse);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error listing images');
-    });
-});
-
-// Request to upload an image to the bucket
-// Method 1 hard coded parameters
-// app.post('/upload', (req, res) => {
-//   const uploadParams = {
-//     Bucket: 'my-localstack-bucket',
-//     Key: 'StarWarsEpisode1.jpg',
-//     Body: fs.createReadStream('/Users/michaelcillo/StarWarsEpisode1.jpg'),
-//     ContentType: 'image/jpg'
-//   };
-
-//   s3Client.send(new PutObjectCommand(uploadParams))
-//     .then((uploadResponse) => {
-//       res.send(uploadResponse);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send('Error uploading image');
-//     });
-// });
-
-// Method 2 request for parameters in body not hard coded
-app.post('/upload', (req, res) => {
-  console.log(req);
-  const uploadParams = {
-    Bucket: req.body.Bucket,
-    Key: req.body.Key,
-    Body: fs.createReadStream(req.body.Body),
-    ContentType: 'image/jpg',
-  };
-  s3Client
-    .send(new PutObjectCommand(uploadParams))
-    .then((uploadResponse) => {
-      res.send(uploadResponse);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error uploading image');
-    });
-});
-
-// Request to retrieive an image from 
-app.get('/images/:key', (req, res) => {
-  // Method 1 Hardcoded 
-  const key = req.query.Key;
-  const getObjectParams = {
-    Bucket: 'my-localstack-bucket',
-    Key: key, // Use the key (filename) from the request parameters
-  };
-  // Method 2 
-  // const getObjectParams = {
-  //   Bucket: req.body.Bucket,
-  //   Key: req.body.Key, 
-  // };
-
-  s3Client.send(new GetObjectCommand(getObjectParams))
-    .then((getObjectResponse) => {
-      getObjectResponse.Body.pipe(res);
-      //res.send(getObjectResponse);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error retrieving image');
-    });
-});
-
-
-
-// CC Code End
 
 // error handling middleware called after all instances of app.use() except for app.listen()
 app.use(bodyParser.urlencoded({
