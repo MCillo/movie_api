@@ -81,7 +81,8 @@ const s3Client = new S3Client({ // Create a new S3Client for
   forcePathStyle: true
 });
 
-const bucketName = "my-localstack-bucket";  // bucket name or path
+// const bucketName = "my-localstack-bucket";  // local bucket name
+const bucketName = "mc-myflix-bucket";  // AWS S3 bucket name
 const storage = multer.memoryStorage(); // stores the file in memory
 const uploadFile = multer({ storage });
 
