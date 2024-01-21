@@ -42,6 +42,7 @@ let allowedOrigins = [   // restricts access to only the included origin domains
   'https://myflix765.netlify.app',
   'http://localhost:4200',
   'https://mcillo.github.io',
+  'http://54.81.232.177'
 
 ];
 app.use(cors({
