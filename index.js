@@ -20,9 +20,8 @@ const fs = require('fs');
 // CC Code End
 
 
-// mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to MongoDB Atlas
-//mongoose.connect("mongodb://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.net:27017/myFlixDB"); // should allow connection to MongoDB from AWS EC2
-// mongoose.connect("mongodb://AWSUser:AWSConnect@172.31.27.50:27017/myFlixDB");
+//mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true });  // allows mongoose to connect to MongoDB Atlas
+
 // For connecting with AWS instance
 mongoose.connect('mongodb+srv://AWSUser:AWSConnect@mc-cluster.rsva2v5.mongodb.net/myFlixDB', {
   useNewUrlParser: true,
@@ -149,7 +148,7 @@ app.get("/view-image/:key", async (req, res) => {
     );
 
     // Set the appropriate headers for image response
-    res.setHeader("Content-Type", ContentType);
+    res.setHeader("Content-Type", 'image/png');
 
     // Pipe the image data directly to the response
     Body.pipe(res);
@@ -258,7 +257,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
     Birthday: Date
 }
 */
-app.post('/users', (req, res) => {
+app.post('/users/', (req, res) => {
   // Validation logic 
   [
     check('Username', 'Username is required').isLength({ min: 5 }),
