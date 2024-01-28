@@ -41,7 +41,9 @@ let allowedOrigins = [   // restricts access to only the included origin domains
   'https://myflix765.netlify.app',
   'http://localhost:4200',
   'https://mcillo.github.io',
-  'http://54.81.232.177'
+  'http://54.81.232.177',
+  'http://52.90.242.134', // AWS MyFlix API Server Instance Pub IP4
+  'http://35.173.132.49'  // AWS MyFlix MongoDB Instance Pub IP4
 
 ];
 app.use(cors({
