@@ -17,13 +17,11 @@ let generateJWTToken = (user) => {
     });
 }
 
-
 /**
  * POST login
  *  uses LocalStrategy from passport.js file to check if the username and password 
  *  in the http request body exist with the database
  */
-
 module.exports = (router) => {
     router.post('/login', (req, res) => {
         console.log('Received login request') //testing
