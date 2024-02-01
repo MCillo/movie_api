@@ -43,7 +43,8 @@ let allowedOrigins = [   // restricts access to only the included origin domains
   'https://mcillo.github.io',
   'http://54.81.232.177',
   'http://52.90.242.134', // AWS MyFlix API Server Instance Pub IP4 
-  'http://35.173.132.49'  // AWS MyFlix MongoDB Instance Pub IP4
+  'http://35.173.132.49',  // AWS MyFlix MongoDB Instance Pub IP4
+  'http://MyFlix-App-Load-Balancer-754907701.us-east-1.elb.amazonaws.com' // AWS Load Balancer
 
 ];
 app.use(cors({
