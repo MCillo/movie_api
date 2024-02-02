@@ -75,10 +75,10 @@ const s3Client = new S3Client({ // Create a new S3Client for
   region: 'us-east-1', // passing region when working with AWS or Localstack
   // endpoint: 'http://localhost:4566', // Passing endpoint and forcePathStyle when working with localstack
   // To access the S3 on AWS
-  // credentials: {
-  //   accessKeyId: 'AccessKey',
-  //   secretAccessKey: 'srcAccessKey',
-  // }
+  credentials: {
+    accessKeyId: 'AccessKey',
+    secretAccessKey: 'srcAccessKey',
+  }
 
   // forcePathStyle: true // for working with localStack
 });
