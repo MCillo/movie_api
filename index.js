@@ -45,7 +45,9 @@ let allowedOrigins = [   // restricts access to only the included origin domains
   'http://52.90.242.134', // AWS MyFlix API Server Instance Pub IP4 
   'http://35.173.132.49',  // AWS MyFlix MongoDB Instance Pub IP4
   'http://MyFlix-App-Load-Balancer-754907701.us-east-1.elb.amazonaws.com', // AWS Load Balancer
-  'http://myflix-client-bucket.s3-website-us-east-1.amazonaws.com' // AWS S3 MyFlix Client Bucket
+  'http://myflix-client-bucket.s3-website-us-east-1.amazonaws.com', // AWS S3 MyFlix Client Bucket
+  'http://acs.amazonaws.com/groups/global/AllUsers', // AWS S3 myflix-bucket for image gallery
+
 
 ];
 app.use(cors({
